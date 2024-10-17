@@ -17,6 +17,7 @@ import { LanguageContext } from "../LanguageContext";
 import { formatDistanceToNow } from "date-fns"; // Импортируем функцию
 import { ru, enUS } from "date-fns/locale"; // Импорт локалей
 import { serverTimestamp } from "firebase/firestore"; // Импортируем serverTimestamp
+import { motion } from "framer-motion";
 
 const CommentsSection = () => {
   const [user, setUser] = useState(null);
@@ -272,37 +273,42 @@ const CommentsSection = () => {
       <div className="comments mt-6 font-def">
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div
+            <motion.div
               key={comment.id} // Изменил key с index на comment.id
               className="comment bg-[#181818] p-4 rounded-lg mb-4"
+              initial={{ opacity: 0, y: 20 }} // Начальное состояние
+              whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
+              exit={{ opacity: 0, y: -20 }} // Состояние при удалении
+              transition={{ duration: 0.5 }} // Длительность анимации
+              viewport={{ once: false }} // Анимация при повторном появлении
             >
               <p className="text-gray-400 text-sm mb-2">{comment.user}</p>
               <p className="text-white">{comment.text}</p>
-              {comment.edited && (
-                <p className="text-gray-500 text-xs italic">
-                  {language === "en" ? "Edited" : "Отредактировано"}
-                </p>
-              )}
               <p className="text-gray-500 text-sm mt-2">
                 {getTimeAgo(comment.timestamp)}
               </p>
               {user && user.email === comment.user && (
-                <div className="flex space-x-4 mt-4">
+                <div className="flex space-x-4 mt-4 items-center">
                   <button
                     onClick={() => handleEditComment(comment.id)}
-                    className="text-blue-600"
+                    className="text-blue-600 text-sm"
                   >
                     {language === "en" ? "Edit" : "Редактировать"}
                   </button>
                   <button
                     onClick={() => handleDeleteComment(comment.id)}
-                    className="text-red-600"
+                    className="text-red-600 text-sm"
                   >
                     {language === "en" ? "Delete" : "Удалить"}
                   </button>
                 </div>
               )}
-            </div>
+              {comment.edited && (
+                <p className="text-gray-500 text-xs font-def mt-[-20px] text-right">
+                  {language === "en" ? "Edited" : "Отредактировано"}
+                </p>
+              )}
+            </motion.div>
           ))
         ) : (
           <p className="text-white text-[20px]">

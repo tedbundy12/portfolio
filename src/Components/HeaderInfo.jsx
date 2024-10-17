@@ -135,7 +135,7 @@ function HeaderInfo() {
           })
         }
       >
-        {language === "en" ? "Up" : "Вверх"}
+        {language === "en" ? "⬆" : "⬆"}
       </button>
       {/* Смена языка */}
       <div className="flex justify-end w-full pr-10 mb-4 pt-4 items-center">
