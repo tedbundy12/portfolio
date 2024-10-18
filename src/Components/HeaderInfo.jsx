@@ -281,9 +281,7 @@ function HeaderInfo() {
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000 transform ${
-              loaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            } cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000`}// Добавляем cursor-pointer для индикации кликабельности
             initial={{ opacity: 0, y: 20 }} // Начальное состояние
             whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
             exit={{ opacity: 0, y: -20 }} // Состояние при удалении
