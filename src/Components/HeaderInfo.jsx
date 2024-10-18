@@ -312,8 +312,8 @@ function HeaderInfo() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, amount: 0.5 }} // Используем once и amount
+            transition={{ duration: 0.5, repeat: 0 }} // Ограничение на повтор анимации
+            viewport={{ once: true, amount: 0.5 }}
           >
             <div className="font-def text-white text-center text-[18px]">
               <img
