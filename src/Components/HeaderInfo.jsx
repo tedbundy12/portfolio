@@ -66,6 +66,33 @@ const projects = {
       category: "Others",
       link: "https://todo-tailwind-livid.vercel.app/",
     },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
+    },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
+    },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
+    },
   ],
   ru: [
     {
@@ -281,12 +308,12 @@ function HeaderInfo() {
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000`}// Добавляем cursor-pointer для индикации кликабельности
-            initial={{ opacity: 0, y: 20 }} // Начальное состояние
-            whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
-            exit={{ opacity: 0, y: -20 }} // Состояние при удалении
-            transition={{ duration: 0.5 }} // Длительность анимации
-            viewport={{ once: false }} // Анимация при повторном появлении
+            className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000 cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.5 }} // Используем once и amount
           >
             <div className="font-def text-white text-center text-[18px]">
               <img
