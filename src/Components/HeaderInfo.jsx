@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthDetails from "./Auth/AuthDetails";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импортируем Firebase Authentication
 import Comments from "./Auth/Comments";
+import { motion } from "framer-motion";
 
 const projects = {
   en: [
@@ -28,6 +29,33 @@ const projects = {
       duration: "9 hours",
       category: "Layouts",
       link: "https://laselvpnn.vercel.app/",
+    },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
+    },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
+    },
+    {
+      id: 3,
+      title: "Simple ToDo Planner",
+      img: todo,
+      skills: "React JS / Tailwind",
+      duration: "2 hours",
+      category: "Others",
+      link: "https://todo-tailwind-livid.vercel.app/",
     },
     {
       id: 3,
@@ -248,7 +276,7 @@ function HeaderInfo() {
       {/* Проекты */}
       <div className="flex justify-center gap-[100px] flex-wrap">
         {filteredProjects.map((project) => (
-          <div
+          <motion.div
             key={project.id}
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
@@ -256,6 +284,11 @@ function HeaderInfo() {
             className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000 transform ${
               loaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
             } cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            initial={{ opacity: 0, y: 20 }} // Начальное состояние
+            whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
+            exit={{ opacity: 0, y: -20 }} // Состояние при удалении
+            transition={{ duration: 0.5 }} // Длительность анимации
+            viewport={{ once: false }} // Анимация при повторном появлении
           >
             <div className="font-def text-white text-center text-[18px]">
               <img
@@ -277,7 +310,7 @@ function HeaderInfo() {
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
 
         <Comments></Comments>
