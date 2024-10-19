@@ -232,7 +232,7 @@ function HeaderInfo() {
         </button>
 
         <div className="hidden fm:block" onClick={toggleVisibility}>
-          <img src={menu} alt="" className="w-[30px]" />
+          <img src={menu} alt="" className="w-[30px] h-[30px]" />
         </div>
         <div
           className={`w-[100px] h-[110px] bg-opacity-20 absolute top-[40px] right-2 flex-col justify-center items-center flex rounded ${
@@ -316,7 +316,7 @@ function HeaderInfo() {
         </a>
       </div>
 
-      <div className="mb-10 flex gap-5 justify-center pt-12">
+      <div className="mb-10 flex gap-5 justify-center pt-12 sm:flex-wrap">
         {categories[language].map((category) => (
           <button
             key={category}
