@@ -269,11 +269,11 @@ function HeaderInfo() {
           href="https://www.linkedin.com/in/vanik-sedrakyan"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-90 transition-all"
+          className="hover:opacity-90 transition-all leading-[20px]"
         >
           {language === "en"
-            ? "Find me on LinkedIn - www.linkedin.com/in/vanik-sedrakyan"
-            : "Найдите меня в LinkedIn - www.linkedin.com/in/vanik-sedrakyan"}
+            ? "Find me on LinkedIn"
+            : "Найдите меня в LinkedIn"}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -294,8 +294,30 @@ function HeaderInfo() {
           className="mb-[10px] hover:opacity-90 transition-all"
         >
           {language === "en"
-            ? "Message me on Telegram - @sedrakyan8"
-            : "Напишите мне в Telegram - @sedrakyan8"}
+            ? "Message me on Telegram"
+            : "Написать мне в Telegram"}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="30"
+            height="30"
+            viewBox="0 0 48 48"
+            className="ml-2"
+          >
+            {/* SVG иконка Telegram */}
+          </svg>
+        </a>
+        <a
+          href=""
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-[10px] hover:opacity-90 transition-all"
+          onClick={() =>
+            window.open("https://discord.com/users/439749629295198248", "_blank")
+          }
+        >
+          {language === "en" ? "Discord" : "Discord"}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
