@@ -264,12 +264,12 @@ function HeaderInfo() {
           : "Портфолио Ваника Седракяна"}
       </p>
 
-      <div className="text-white font-def font-semibold leading-[35px] text-[18px] flex flex-col text-center items-center">
+      <div className="text-white font-def font-semibold leading-[5px] pt-4 text-[18px] justify-center flex flex-col text-center items-center">
         <a
           href="https://www.linkedin.com/in/vanik-sedrakyan"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center hover:opacity-90 transition-all"
+          className="hover:opacity-90 transition-all"
         >
           {language === "en"
             ? "Find me on LinkedIn - www.linkedin.com/in/vanik-sedrakyan"
@@ -291,7 +291,7 @@ function HeaderInfo() {
           href="https://t.me/sedrakyan8"
           target="_blank"
           rel="noopener noreferrer"
-          className="mb-[10px] flex items-center hover:opacity-90 transition-all"
+          className="mb-[10px] hover:opacity-90 transition-all"
         >
           {language === "en"
             ? "Message me on Telegram - @sedrakyan8"
