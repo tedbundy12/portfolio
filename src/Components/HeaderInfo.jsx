@@ -309,9 +309,8 @@ function HeaderInfo() {
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
             className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000 cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, repeat: 0 }} // Ограничение на повтор анимации
             viewport={{ once: true, amount: 0.5 }}
           >
