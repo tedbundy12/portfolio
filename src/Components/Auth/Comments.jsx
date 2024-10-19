@@ -216,7 +216,7 @@ const CommentsSection = () => {
   };
 
   return (
-    <div className="comments-section w-[55%] pt-[100px]">
+    <div className="comments-section w-[55%] pt-[100px] ssm:w-full ssm:px-4">
       {user && (
         <p className="text-white text-[20px] font-def">
           {language === "en"
@@ -270,12 +270,12 @@ const CommentsSection = () => {
         </p>
       )}
       {error && <p className="text-red-500 mt-4 flex items-center">{error}</p>}
-      <div className="comments mt-6 font-def">
+      <div className="comments mt-6 font-def ssm:w-full">
         {comments.length > 0 ? (
           comments.map((comment) => (
             <motion.div
               key={comment.id} // Изменил key с index на comment.id
-              className="comment bg-[#181818] p-4 rounded-lg mb-4"
+              className="comment bg-[#181818] p-4 rounded-lg mb-4 overflow-hidden text-ellipsis break-words"
               initial={{ opacity: 0, y: 20 }} // Начальное состояние
               whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
               exit={{ opacity: 0, y: -20 }} // Состояние при удалении
