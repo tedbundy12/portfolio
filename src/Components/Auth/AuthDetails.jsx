@@ -19,7 +19,7 @@ const AuthDetails = () => {
   };
 
   return (
-    <div className="auth-details mr-12">
+    <div className="auth-details mr-12 fm:mr-[180px]">
       {user ? (
         <div className="flex items-center">
           <p className="text-white mr-4">{language === "en" ? `You are logged in as ${user.email}` : `Вы вошли как ${user.email}`}</p>

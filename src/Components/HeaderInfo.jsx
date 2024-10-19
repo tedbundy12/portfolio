@@ -9,6 +9,7 @@ import AuthDetails from "./Auth/AuthDetails";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импортируем Firebase Authentication
 import Comments from "./Auth/Comments";
 import { motion } from "framer-motion";
+import menu from "../assets/menu.png";
 
 const projects = {
   en: [
@@ -146,9 +147,14 @@ function HeaderInfo() {
   const [loaded, setLoaded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categories.en[0]);
   const [user, setUser] = useState(null); // Состояние для хранения пользователя
+  const [isVisible, setIsVisible] = useState(false); // Состояние для видимости скрытого дива
 
   const auth = getAuth(); // Инициализация Firebase Authentication
   const navigate = useNavigate();
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible); // Переключаем состояние между true и false
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -198,7 +204,7 @@ function HeaderInfo() {
         {user ? (
           <AuthDetails />
         ) : (
-          <div className="text-white font-def flex gap-[30px] mr-5">
+          <div className="text-white font-def flex gap-[30px] mr-5 fm:mr-16">
             <Link to={{ pathname: "/signin" }}>
               {language === "en" ? "Sign In" : "Войти"}
             </Link>
@@ -212,7 +218,7 @@ function HeaderInfo() {
           onClick={() => toggleLanguage("en")}
           className={`px-4 py-2 mx-2 ${
             language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
-          } rounded-md`}
+          } rounded-md fm:hidden`}
         >
           English
         </button>
@@ -220,10 +226,36 @@ function HeaderInfo() {
           onClick={() => toggleLanguage("ru")}
           className={`px-4 py-2 mx-2 ${
             language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
-          } rounded-md`}
+          } rounded-md fm:hidden`}
         >
           Русский
         </button>
+
+        <div className="hidden fm:block" onClick={toggleVisibility}>
+          <img src={menu} alt="" className="w-[30px]" />
+        </div>
+        <div
+          className={`w-[100px] h-[110px] bg-opacity-20 absolute top-[40px] right-2 flex-col justify-center items-center flex rounded ${
+            isVisible ? "block" : "hidden"
+          }`}
+        >
+          <p
+            onClick={() => toggleLanguage("en")}
+            className={`text-center h-[30px] justify-center items-center flex w-full ${
+              language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
+            } rounded-md`}
+          >
+            English
+          </p>
+          <p
+            onClick={() => toggleLanguage("ru")}
+            className={`text-center mt-2 w-full h-[30px] justify-center items-center flex ${
+              language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
+            } rounded-md`}
+          >
+            Русский
+          </p>
+        </div>
       </div>
 
       <p className="text-white text-[50px] text-center pt-20 font-def font-bold tracking-[4px]">
@@ -301,20 +333,25 @@ function HeaderInfo() {
       </div>
 
       {/* Проекты */}
-      <div className="flex justify-center gap-[100px] flex-wrap">
+      <div className="flex justify-center gap-[100px] flex-wrap fm:gap-[50px] sm:gap-[20px] tm:gap-[50px]">
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`border-2 rounded-lg border-[#00000073] cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            className={`group border-2 rounded-lg border-[#00000073] cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
             initial={{ opacity: 0, y: 20 }} // Начальное состояние
             whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
             exit={{ opacity: 0, y: -20 }} // Состояние при удалении
             transition={{ duration: 0.5 }} // Длительность анимации
             viewport={{ once: false }} // Анимация при повторном появлении
           >
+            <div className="w-[380px] h-[250px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300">
+              <span className="text-white text-[20px] text-center font-bold">
+                {openInNewTabText[language]}
+              </span>
+            </div>
             <div className="font-def text-white text-center text-[18px]">
               <img
                 src={project.img}
@@ -329,11 +366,6 @@ function HeaderInfo() {
                 {language === "en" ? "Duration" : "Длительность"} -{" "}
                 {project.duration}
               </p>
-              <div className="absolute h-[250px] mt-[0px] inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-[20px] font-bold">
-                  {openInNewTabText[language]}
-                </span>
-              </div>
             </div>
           </motion.div>
         ))}
