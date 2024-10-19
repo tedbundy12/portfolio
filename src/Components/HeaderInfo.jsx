@@ -308,11 +308,12 @@ function HeaderInfo() {
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`relative group border-2 rounded-lg border-[#00000073] transition-all duration-1000 cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
-            initial={{ opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, repeat: 0 }} // Ограничение на повтор анимации
-            viewport={{ once: true, amount: 0.5 }}
+            className={`border-2 rounded-lg border-[#00000073] cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            initial={{ opacity: 0, y: 20 }} // Начальное состояние
+            whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
+            exit={{ opacity: 0, y: -20 }} // Состояние при удалении
+            transition={{ duration: 0.5 }} // Длительность анимации
+            viewport={{ once: false }} // Анимация при повторном появлении
           >
             <div className="font-def text-white text-center text-[18px]">
               <img

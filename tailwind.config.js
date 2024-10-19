@@ -5,6 +5,9 @@ export default {
     extend: {},
     fontFamily: {
       def: "Roboto, sans-serif"
+    },
+    screens: {
+      fm: {max: "880px"}
     }
   },
   plugins: [],
