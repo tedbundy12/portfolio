@@ -70,6 +70,7 @@ function HeaderInfo() {
   const [selectedCategory, setSelectedCategory] = useState(categories.en[0]);
   const [user, setUser] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const auth = getAuth(); // Firebase Authentication
   const navigate = useNavigate();
@@ -77,6 +78,14 @@ function HeaderInfo() {
   const toggleVisibility = () => {
     setIsVisible(!isVisible); // Переключаем состояние между true и false
   };
+
+  const filteredProjectsInp = projects[language].filter(
+    (project) =>
+      (selectedCategory === "All" ||
+        selectedCategory === "Все" ||
+        project.category === selectedCategory) &&
+      project.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -100,13 +109,10 @@ function HeaderInfo() {
   }, [auth]);
 
   // Фильтрация проектов по выбранной категории
-  const filteredProjects =
-    selectedCategory === "All" || selectedCategory === "Все"
-      ? projects[language]
-      : projects[language].filter(
-          (project) => project.category === selectedCategory
-        );
-
+  const filteredProjects = projects[language].filter((project) =>
+    (selectedCategory === "All" || selectedCategory === "Все" || project.category === selectedCategory) &&
+    project.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <div className={styles.container}>
       <button
@@ -270,7 +276,7 @@ function HeaderInfo() {
         </a>
       </div>
 
-      <div className="mb-10 flex gap-5 justify-center pt-12 sm:flex-wrap">
+      <div className="mb-6 flex gap-5 justify-center pt-12 sm:flex-wrap">
         {categories[language].map((category) => (
           <button
             key={category}
@@ -286,6 +292,18 @@ function HeaderInfo() {
         ))}
       </div>
 
+      <div className="flex justify-center pt-0 mb-4">
+        <input
+          type="text"
+          placeholder={
+            language === "en" ? "Search projects..." : "Поиск проектов..."
+          }
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border rounded-lg w-[410px] h-[40px] pl-2 mb-4 border-none outline-none"
+        />
+      </div>
+
       {/* Проекты */}
       <div className="flex justify-center gap-[100px] flex-wrap fm:gap-[50px] sm:gap-[20px] tm:gap-[50px]">
         {filteredProjects.map((project) => (
@@ -294,7 +312,7 @@ function HeaderInfo() {
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`group border-2 rounded-lg border-[#00000073] cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
+            className={`group border-2 rounded-lg bg-[#121212] border-[#00000073] cursor-pointer`} // Добавляем cursor-pointer для индикации кликабельности
             initial={{ opacity: 0, y: 20 }} // Начальное состояние
             whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
             exit={{ opacity: 0, y: -20 }} // Состояние при удалении
