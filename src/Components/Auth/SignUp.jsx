@@ -4,6 +4,8 @@ import { auth } from "../Firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+import styles from '../HeaderInfo.module.css'
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +43,7 @@ const SignUp = () => {
       .catch((error) => console.log(error));
   }
   return (
-    <div>
+    <div className={styles.container}>
       <form
         onSubmit={register}
         className="flex justify-center flex-col text-center items-center gap-[15px] pt-[200px]"

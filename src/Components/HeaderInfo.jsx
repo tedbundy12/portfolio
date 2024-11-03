@@ -300,7 +300,7 @@ function HeaderInfo() {
           }
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="border rounded-lg w-[410px] h-[40px] pl-2 mb-4 border-none outline-none"
+          className="border rounded-lg w-[410px] h-[40px] pl-2 mb-4 border-none outline-none font-def"
         />
       </div>
 

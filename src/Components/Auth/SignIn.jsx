@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LanguageContext } from "../LanguageContext";
 
+import styles from '../HeaderInfo.module.css'
+
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +42,7 @@ const SignIn = () => {
       });
   }
   return (
-    <div>
+    <div className={styles.container}>
       <form className="flex justify-center flex-col text-center items-center gap-[15px] pt-[200px]">
         <h2 className="text-white font-def text-[32px]">Log in</h2>
         <input
