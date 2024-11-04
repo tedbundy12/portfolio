@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LanguageContext } from "../LanguageContext";
 
-import styles from '../HeaderInfo.module.css'
+import styles from "../HeaderInfo.module.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +15,8 @@ const SignIn = () => {
   const auth = getAuth();
 
   const navigate = useNavigate();
+
+  const { language, toggleLanguage } = useContext(LanguageContext); //
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -43,8 +45,28 @@ const SignIn = () => {
   }
   return (
     <div className={styles.container}>
+      <div className="pt-2 absolute">
+        <button
+          onClick={() => toggleLanguage("en")}
+          className={`px-4 py-2 mx-2 ${
+            language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
+          } rounded-md`}
+        >
+          English
+        </button>
+        <button
+          onClick={() => toggleLanguage("ru")}
+          className={`px-4 py-2 mx-2 ${
+            language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
+          } rounded-md`}
+        >
+          Русский
+        </button>
+      </div>
       <form className="flex justify-center flex-col text-center items-center gap-[15px] pt-[200px]">
-        <h2 className="text-white font-def text-[32px]">Log in</h2>
+        <h2 className="text-white font-def text-[32px] font-semibold">
+          {language === 'en' ? "Sign in" : "Авторизация"}
+        </h2>
         <input
           placeholder="Email"
           value={email}
@@ -63,13 +85,13 @@ const SignIn = () => {
           onClick={logIn}
           className="bg-blue-600 text-white w-[120px] h-[35px] rounded"
         >
-          Login
+          {language === 'en' ? "Login" : "Войти"}
         </button>
         <Link to={{ pathname: "/signup" }} className="text-blue-500 font-def">
-          Don't have an account?
+          {language === "en" ? "Don't have an account?" : "Не зарегистрированы?"}
         </Link>
         <Link to={{ pathname: "/" }} className="text-white font-def">
-          Back
+          {language === 'en' ? "Back" : "Назад"}
         </Link>
         {error ? <p style={{ color: "red" }}>{error}</p> : ""}
       </form>
