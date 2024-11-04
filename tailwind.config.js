@@ -17,6 +17,8 @@ export default {
       em: { max: "390px" },
       nm: { max: "438px" },
       tm: { max: "468px" },
+      elm: {max: "500px"},
+      twm: {max: "400px"}
     },
     boxShadow: {
       "custom-3d":

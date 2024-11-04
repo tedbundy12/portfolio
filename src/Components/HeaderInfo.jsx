@@ -300,12 +300,12 @@ function HeaderInfo() {
           }
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="border rounded-lg w-[410px] h-[40px] pl-2 mb-4 border-none outline-none font-def"
+          className="border rounded-lg w-[410px] h-[40px] pl-2 mb-4 border-none outline-none font-def elm:w-[350px] twm:w-[250px]"
         />
       </div>
 
       {/* Проекты */}
-      <div className="flex justify-center gap-[100px] flex-wrap fm:gap-[50px] sm:gap-[20px] tm:gap-[50px]">
+      <div className="flex justify-center gap-[100px] flex-wrap fm:gap-[50px] sm:gap-[20px] tm:gap-[50px] twm:w-full">
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
@@ -319,7 +319,7 @@ function HeaderInfo() {
             transition={{ duration: 0.5 }} // Длительность анимации
             viewport={{ once: false }} // Анимация при повторном появлении
           >
-            <div className="w-[380px] h-[250px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300">
+            <div className="w-[380px] h-[250px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300 twm:w-full">
               <span className="text-white text-[20px] text-center font-bold">
                 {openInNewTabText[language]}
               </span>
