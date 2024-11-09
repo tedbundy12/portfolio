@@ -275,12 +275,8 @@ const CommentsSection = () => {
           comments.map((comment) => (
             <motion.div
               key={comment.id} // Изменил key с index на comment.id
-              className="comment bg-[#181818] p-4 rounded-lg mb-4 overflow-hidden text-ellipsis break-words"
-              initial={{ opacity: 0, y: 20 }} // Начальное состояние
-              whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
-              exit={{ opacity: 0, y: -20 }} // Состояние при удалении
-              transition={{ duration: 0.5 }} // Длительность анимации
-              viewport={{ once: false }} // Анимация при повторном появлении
+              className="comment bg-[#181818] p-4 rounded-lg mb-4 overflow-hidden text-ellipsis break-words]"
+              
             >
               <p className="text-gray-400 text-sm mb-2">{comment.user}</p>
               <p className="text-white">{comment.text}</p>
