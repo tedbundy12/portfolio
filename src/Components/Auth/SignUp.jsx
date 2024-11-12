@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import styles from "../HeaderInfo.module.css";
 import { LanguageContext } from "../LanguageContext";
+import ParticlesComponent from "../Particles.jsx";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -82,6 +83,9 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.particles}>
+        <ParticlesComponent />
+      </div>
       <div className="pt-2 absolute">
         <button
           onClick={() => toggleLanguage("en")}
@@ -132,16 +136,16 @@ const SignUp = () => {
           {language === "en" ? "Create" : "Создать"}
         </button>
         <Link to={{ pathname: "/signin" }} className="text-blue-500 font-def">
-          {language === 'en' ? "Already have an account?" : "Уже есть аккаунт?"}
+          {language === "en" ? "Already have an account?" : "Уже есть аккаунт?"}
         </Link>
         <Link to={{ pathname: "/" }} className="text-white font-def">
-          {language === 'en' ? 'Back' : "Назад"}
+          {language === "en" ? "Back" : "Назад"}
         </Link>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
       <div className="text-white mt-12 text-center">
         <h3 className="font-def text-[24px] font-semibold text-center mb-2">
-          {language === "en" ? "Recent Users" : "Недавние Пользователи"}
+          {language === "en" ? "Recent Registered Users" : "Недавние зарегистрированные Пользователи"}
         </h3>
         <ul className="flex items-center justify-center gap-4 flex-wrap">
           {recentUsers.map((user, index) => (

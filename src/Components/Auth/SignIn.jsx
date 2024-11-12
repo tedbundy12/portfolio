@@ -6,6 +6,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LanguageContext } from "../LanguageContext";
 
 import styles from "../HeaderInfo.module.css";
+import ParticlesComponent from "../Particles";
+
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -45,7 +47,9 @@ const SignIn = () => {
   }
   return (
     <div className={styles.container}>
-      
+      <div className={styles.particles}>
+        <ParticlesComponent />
+      </div>
       <div className="pt-2 absolute">
         <button
           onClick={() => toggleLanguage("en")}
