@@ -13,6 +13,8 @@ import menu from "../assets/menu.png";
 
 import styles from "./HeaderInfo.module.css";
 
+import ParticlesComponent from "./Particles.jsx";
+
 const projects = {
   en: [
     {
@@ -104,82 +106,6 @@ function HeaderInfo() {
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-
-    let stars = [];
-    const offset = 0.2;
-    const colours = [0, 60, 240];
-
-    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-    const getRandomFloat = (min, max) => Math.random() * (max - min) + min;
-
-    const drawStar = ({ x, y, radius, hue, sat }) => {
-      context.beginPath();
-      context.arc(x, y, radius, 0, Math.PI * 2);
-      context.fillStyle = `hsl(${hue}, ${sat}%, 88%)`;
-      context.fill();
-    };
-
-    const generateStars = () => {
-      stars = [];
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const { width, height } = canvas;
-
-      context.clearRect(0, 0, width, height);
-
-      const overflowX = width * offset;
-      const overflowY = height * offset;
-      const density = width + overflowX + height + overflowY;
-
-      for (let i = 0; i <= density; i++) {
-        const x = getRandomInt(-overflowX, width + overflowX);
-        const y = getRandomInt(-overflowY, height + overflowY);
-        const radius = getRandomFloat(0.2, 1.5);
-        const hue = colours[getRandomInt(0, colours.length - 1)];
-        const sat = getRandomInt(50, 100);
-
-        stars[i] = { x, y, radius, hue, sat };
-        drawStar(stars[i]);
-      }
-    };
-
-    const moveStars = (offsetX, offsetY) => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      stars.forEach((star) =>
-        drawStar({
-          ...star,
-          x: star.x + (offsetX * 0.25) * (star.radius * 0.5),
-          y: star.y + (offsetY * 0.25) * (star.radius * 0.5),
-        })
-      );
-    };
-
-    const handleMouseMove = (event) => {
-      const offsetX = event.clientX - canvas.width / 2;
-      const offsetY = event.clientY - canvas.height / 2;
-      moveStars(offsetX, offsetY);
-    };
-
-    const handleResize = () => generateStars();
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
-
-    generateStars();
-
-    return () => {
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   const auth = getAuth(); // Firebase Authentication
   const navigate = useNavigate();
 
@@ -219,21 +145,21 @@ function HeaderInfo() {
   // Фильтрация проектов по выбранной категории
   const filteredProjects = projects[language].filter((project) => {
     const isCategoryMatch =
-      selectedCategory === "All" || 
-      selectedCategory === "Все" || 
+      selectedCategory === "All" ||
+      selectedCategory === "Все" ||
       project.category === selectedCategory;
 
-    const isSearchMatch = project.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const isSearchMatch = project.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
 
     return isCategoryMatch && isSearchMatch;
   });
   return (
     <div className={styles.container}>
-      <header style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-      <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: '0' }} />
-      <div style={{ position: 'relative', zIndex: 1, color: '#fff', textAlign: 'center', padding: '20px' }}>
+      <div className={styles.particles}>
+        <ParticlesComponent />
       </div>
-    </header>
       <button
         className="text-white text-[20px] fixed bottom-0 py-2 px-2"
         onClick={() =>
@@ -247,7 +173,7 @@ function HeaderInfo() {
       </button>
 
       {/* Смена языка */}
-      <div className="flex justify-end w-full pr-10 mb-4 pt-0 items-center ssm:justify-between ssm:px-4">
+      <div className="flex justify-end w-full pr-10 mb-4 pt-4 items-center ssm:justify-between ssm:px-4">
         {/* Отображаем AuthDetails, если пользователь в аккаунте */}
         {user ? (
           <AuthDetails />
