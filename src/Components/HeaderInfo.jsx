@@ -4,6 +4,7 @@ import cv1 from "./cv1.pdf";
 import supabase from "../assets/supabase.jpg";
 import lasles from "../assets/lasles.jpg";
 import todo from "../assets/todoo.webp";
+// import agario from "../assets/agario.avif";
 import { Link, useNavigate } from "react-router-dom";
 import AuthDetails from "./Auth/AuthDetails";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импортируем Firebase Authentication
@@ -26,6 +27,7 @@ const projects = {
       category: "Layouts",
       link: "https://tailwind-1-j7qg.vercel.app/",
       githubLink: "https://github.com/tedbundy12/tailwind-1",
+      demo: "Has",
     },
     {
       id: 2,
@@ -36,6 +38,7 @@ const projects = {
       category: "Layouts",
       link: "https://laselvpnn.vercel.app/",
       githubLink: "https://github.com/tedbundy12/thirdproject",
+      demo: "Has",
     },
     {
       id: 3,
@@ -46,6 +49,18 @@ const projects = {
       category: "Others",
       link: "https://todo-tailwind-livid.vercel.app/",
       githubLink: "https://github.com/tedbundy12/todoTailwind",
+      demo: "Has",
+    },
+    {
+      id: 4,
+      title: "Agar.Io Clone ( not finished )",
+      img: "https://images.crazygames.com/agario/20230719092731/agario-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&w=1200&h=630&fit=crop",
+      skills: "Node JS / Socket.io",
+      duration: "5 hours",
+      category: "Games",
+      link: "/",
+      githubLink: "https://github.com/tedbundy12/agar.io",
+      demo: "None",
     },
   ],
   ru: [
@@ -58,6 +73,7 @@ const projects = {
       category: "Вёрстка",
       link: "https://tailwind-1-j7qg.vercel.app/",
       githubLink: "https://github.com/tedbundy12/tailwind-1",
+      demo: "Есть",
     },
     {
       id: 2,
@@ -68,6 +84,7 @@ const projects = {
       category: "Вёрстка",
       link: "https://laselvpnn.vercel.app/",
       githubLink: "https://github.com/tedbundy12/thirdproject",
+      demo: "Есть",
     },
     {
       id: 3,
@@ -76,8 +93,20 @@ const projects = {
       skills: "React JS / Tailwind",
       duration: "2 часа",
       category: "Другое",
-      link: "https://todo-tailwind-livid.vercel.app/",
+      link: "/",
       githubLink: "https://github.com/tedbundy12/todoTailwind",
+      demo: "Есть",
+    },
+    {
+      id: 4,
+      title: "Клон игры Агарио ( не закончен )",
+      img: "https://images.crazygames.com/agario/20230719092731/agario-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&w=1200&h=630&fit=crop",
+      skills: "Node JS / Socket.io",
+      duration: "5 часов",
+      category: "Игры",
+      link: "https://todo-tailwind-livid.vercel.app/",
+      githubLink: "https://github.com/tedbundy12/agar.io",
+      demo: "Нет",
     },
   ],
 };
@@ -382,6 +411,10 @@ function HeaderInfo() {
               <p className="mb-2">
                 {language === "en" ? "Duration" : "Длительность"} |{" "}
                 {project.duration}
+              </p>
+              <p className="mb-2">
+                {language === "en" ? "Demo" : "Демо"}: {" "}
+                {project.demo}
               </p>
               <p
                 className="mb-2"
