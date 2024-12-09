@@ -65,8 +65,10 @@
   height: 24px;
 }
 
-.button:hover {
-  background: #6c18ff;
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    background: #6c18ff;
+  }
 }
 
 .button:hover .text {
