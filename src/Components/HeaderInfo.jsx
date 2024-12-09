@@ -62,6 +62,17 @@ const projects = {
       githubLink: "https://github.com/tedbundy12/agar.io",
       demo: "None",
     },
+    {
+      id: 5,
+      title: "Simple Drone Game",
+      img: "https://s22908.pcdn.co/wp-content/uploads/2023/07/most-hyped-up-games.jpg",
+      skills: "HTML / CSS / JavaScript",
+      duration: "1 hours",
+      category: "Games",
+      link: "https://drone-game-nine.vercel.app/",
+      githubLink: "https://github.com/tedbundy12/drone-game",
+      demo: "Has",
+    },
   ],
   ru: [
     {
@@ -107,6 +118,17 @@ const projects = {
       link: "https://todo-tailwind-livid.vercel.app/",
       githubLink: "https://github.com/tedbundy12/agar.io",
       demo: "Нет",
+    },
+    {
+      id: 5,
+      title: "Простая игра с дроном",
+      img: "https://s22908.pcdn.co/wp-content/uploads/2023/07/most-hyped-up-games.jpg",
+      skills: "HTML / CSS / JavaScript",
+      duration: "1 Часов",
+      category: "Игры",
+      link: "https://drone-game-nine.vercel.app/",
+      githubLink: "https://github.com/tedbundy12/drone-game",
+      demo: "Есть",
     },
   ],
 };
@@ -413,8 +435,7 @@ function HeaderInfo() {
                 {project.duration}
               </p>
               <p className="mb-2">
-                {language === "en" ? "Demo" : "Демо"}: {" "}
-                {project.demo}
+                {language === "en" ? "Demo" : "Демо"}: {project.demo}
               </p>
               <p
                 className="mb-2"
