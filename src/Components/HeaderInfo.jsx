@@ -3,7 +3,6 @@ import { LanguageContext } from "./LanguageContext"; // Импортируем �
 import cv1 from "./cv1.pdf";
 import supabase from "../assets/supabase.jpg";
 import lasles from "../assets/lasles.jpg";
-import todo from "../assets/todoo.webp";
 // import agario from "../assets/agario.avif";
 import { Link, useNavigate } from "react-router-dom";
 import AuthDetails from "./Auth/AuthDetails";
@@ -11,6 +10,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импортир
 import Comments from "./Auth/Comments";
 import { motion } from "framer-motion";
 import menu from "../assets/menu.png";
+
+import layouts from '../assets/layouts.png'
+import games from '../assets/games.png'
+import todo from '../assets/todo.png'
 
 import styles from "./HeaderInfo.module.css";
 
@@ -21,7 +24,7 @@ const projects = {
     {
       id: 1,
       title: "Website Layout of Supabase",
-      img: supabase,
+      img: layouts,
       skills: "React JS / Tailwind",
       duration: "12 hours",
       category: "Layouts",
@@ -32,7 +35,7 @@ const projects = {
     {
       id: 2,
       title: "Website Layout of LaslesVPN",
-      img: lasles,
+      img: layouts,
       skills: "React JS / Tailwind",
       duration: "9 hours",
       category: "Layouts",
@@ -54,7 +57,7 @@ const projects = {
     {
       id: 4,
       title: "Agar.Io Clone ( not finished )",
-      img: "https://images.crazygames.com/agario/20230719092731/agario-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&w=1200&h=630&fit=crop",
+      img: games,
       skills: "Node JS / Socket.io",
       duration: "5 hours",
       category: "Games",
@@ -65,7 +68,7 @@ const projects = {
     {
       id: 5,
       title: "Simple Drone Game",
-      img: "https://s22908.pcdn.co/wp-content/uploads/2023/07/most-hyped-up-games.jpg",
+      img: games,
       skills: "HTML / CSS / JavaScript",
       duration: "1 hours",
       category: "Games",
@@ -78,7 +81,7 @@ const projects = {
     {
       id: 1,
       title: "Вёрстка сайта Supabase",
-      img: supabase,
+      img: layouts,
       skills: "React JS / Tailwind",
       duration: "12 часов",
       category: "Вёрстка",
@@ -89,7 +92,7 @@ const projects = {
     {
       id: 2,
       title: "Вёрстка сайта LaslesVPN",
-      img: lasles,
+      img: layouts,
       skills: "React JS / Tailwind",
       duration: "9 часов",
       category: "Вёрстка",
@@ -111,7 +114,7 @@ const projects = {
     {
       id: 4,
       title: "Клон игры Агарио ( не закончен )",
-      img: "https://images.crazygames.com/agario/20230719092731/agario-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&w=1200&h=630&fit=crop",
+      img: games,
       skills: "Node JS / Socket.io",
       duration: "5 часов",
       category: "Игры",
@@ -122,7 +125,7 @@ const projects = {
     {
       id: 5,
       title: "Простая игра с дроном",
-      img: "https://s22908.pcdn.co/wp-content/uploads/2023/07/most-hyped-up-games.jpg",
+      img: games,
       skills: "HTML / CSS / JavaScript",
       duration: "1 Часов",
       category: "Игры",
@@ -220,7 +223,7 @@ function HeaderInfo() {
           })
         }
       >
-        {language === "en" ? "⬆" : "⬆"}
+        {language === "en" ? "Up" : "Вверх"}
       </button>
 
       {/* Смена языка */}
@@ -408,14 +411,14 @@ function HeaderInfo() {
             onClick={() =>
               window.open(project.link, "_blank", "noopener,noreferrer")
             }
-            className={`group border-2 rounded-lg bg-[#121212] border-[#00000073] cursor-pointer bg-opacity-80`} // Добавляем cursor-pointer для индикации кликабельности
+            className={`group border-2 rounded-lg bg-[#202020] border-[#00000073] cursor-pointer bg-opacity-80`} // Добавляем cursor-pointer для индикации кликабельности
             initial={{ opacity: 0, y: 20 }} // Начальное состояние
             whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
             exit={{ opacity: 0, y: -20 }} // Состояние при удалении
             transition={{ duration: 0.5 }} // Длительность анимации
             viewport={{ once: false }} // Анимация при повторном появлении
           >
-            <div className="w-[380px] h-[250px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300 twm:w-full">
+            <div className="w-[380px] h-[220px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300 twm:w-full">
               <span className="text-white text-[20px] text-center font-bold">
                 {openInNewTabText[language]}
               </span>
@@ -424,7 +427,7 @@ function HeaderInfo() {
               <img
                 src={project.img}
                 alt={project.title}
-                className="w-[380px] h-[250px] mb-5 rounded-lg"
+                className="w-[380px] h-[220px] mb-5 rounded-t-lg"
               />
               <p className="mb-2">{project.title}</p>
               <p className="mb-2">
@@ -435,7 +438,7 @@ function HeaderInfo() {
                 {project.duration}
               </p>
               <p className="mb-2">
-                {language === "en" ? "Demo" : "Демо"}: {project.demo}
+                {language === "en" ? "Demo" : "Демо"} - {project.demo}
               </p>
               <p
                 className="mb-2"
