@@ -11,9 +11,9 @@ import Comments from "./Auth/Comments";
 import { motion } from "framer-motion";
 import menu from "../assets/menu.png";
 
-import layouts from '../assets/layouts.png'
-import games from '../assets/games.png'
-import todo from '../assets/todo.png'
+import layouts from "../assets/layouts.png";
+import games from "../assets/games.png";
+import todo from "../assets/todo.png";
 
 import styles from "./HeaderInfo.module.css";
 
@@ -67,6 +67,17 @@ const projects = {
     },
     {
       id: 5,
+      title: "Simple Drone Game",
+      img: games,
+      skills: "HTML / CSS / JavaScript",
+      duration: "1 hours",
+      category: "Games",
+      link: "https://drone-game-nine.vercel.app/",
+      githubLink: "https://github.com/tedbundy12/drone-game",
+      demo: "Has",
+    },
+    {
+      id: 6,
       title: "Simple Drone Game",
       img: games,
       skills: "HTML / CSS / JavaScript",
@@ -133,6 +144,17 @@ const projects = {
       githubLink: "https://github.com/tedbundy12/drone-game",
       demo: "Есть",
     },
+    {
+      id: 6,
+      title: "Простая игра с дроном",
+      img: games,
+      skills: "HTML / CSS / JavaScript",
+      duration: "1 Часов",
+      category: "Игры",
+      link: "https://drone-game-nine.vercel.app/",
+      githubLink: "https://github.com/tedbundy12/drone-game",
+      demo: "Есть",
+    },
   ],
 };
 
@@ -159,6 +181,14 @@ function HeaderInfo() {
   const [user, setUser] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [visibleProjects, setVisibleProjects] = useState(5); // Начальное количество проектов
+
+  const handleLoadMore = () => {
+    setVisibleProjects((prev) => prev + 5); // Увеличиваем количество видимых проектов на 5
+  };
+
+  const currentProjects = projects[language].slice(0, visibleProjects); // Обрезаем список
 
   const auth = getAuth(); // Firebase Authentication
   const navigate = useNavigate();
@@ -197,18 +227,20 @@ function HeaderInfo() {
   }, [auth]);
 
   // Фильтрация проектов по выбранной категории
-  const filteredProjects = projects[language].filter((project) => {
-    const isCategoryMatch =
-      selectedCategory === "All" ||
-      selectedCategory === "Все" ||
-      project.category === selectedCategory;
+  const filteredProjects = projects[language]
+    .slice(0, visibleProjects)
+    .filter((project) => {
+      const isCategoryMatch =
+        selectedCategory === "All" ||
+        selectedCategory === "Все" ||
+        project.category === selectedCategory;
 
-    const isSearchMatch = project.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+      const isSearchMatch = project.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
 
-    return isCategoryMatch && isSearchMatch;
-  });
+      return isCategoryMatch && isSearchMatch;
+    });
   return (
     <div className={styles.container}>
       <div className={styles.particles}>
@@ -474,6 +506,16 @@ function HeaderInfo() {
           </motion.div>
         ))}
       </div>
+      {visibleProjects < projects[language].length && (
+        <div className="m-0 m-auto flex justify-center">
+          <button
+            onClick={handleLoadMore}
+            className="text-white bg-blue-500 px-16 py-2 mt-12 rounded font-def font-semibold"
+          >
+            {language === "en" ? "Load More" : "Загрузить больше"}
+          </button>
+        </div>
+      )}
       <div className="flex justify-center">
         <Comments></Comments>
       </div>
