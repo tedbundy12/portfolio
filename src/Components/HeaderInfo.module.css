@@ -14,7 +14,7 @@
   text-align: center;
   border-radius: 0.45em;
   font-family: "Arial";
-  transition: background 0.5s;
+  transition: background 0.8s;
   border: none;
 }
 
@@ -153,9 +153,9 @@ ul {
   width: 30px;
   height: 30px;
 }
-.example_2 .icon_content a:hover {
+/* .example_2 .icon_content a:hover {
   color: white;
-}
+} */
 .example_2 .icon_content a .filled {
   position: absolute;
   top: auto;
