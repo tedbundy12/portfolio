@@ -1,9 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { LanguageContext } from "./LanguageContext"; // Импортируем контекст
 import cv1 from "./cv1.pdf";
-import supabase from "../assets/supabase.jpg";
-import lasles from "../assets/lasles.jpg";
-// import agario from "../assets/agario.avif";
 import { Link, useNavigate } from "react-router-dom";
 import AuthDetails from "./Auth/AuthDetails";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Импортируем Firebase Authentication
@@ -11,167 +8,13 @@ import Comments from "./Auth/Comments";
 import { motion } from "framer-motion";
 import menu from "../assets/menu.png";
 
-import layouts from "../assets/layouts.png";
-import games from "../assets/games.png";
-import todo from "../assets/todo.png";
-
 import styles from "./HeaderInfo.module.css";
 
 import ParticlesComponent from "./Particles.jsx";
 
-const projects = {
-  en: [
-    {
-      id: 1,
-      title: "Website Layout of Supabase",
-      img: layouts,
-      skills: "React JS / Tailwind",
-      duration: "12 hours",
-      category: "Layouts",
-      link: "https://tailwind-1-j7qg.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/tailwind-1",
-      demo: "Has",
-    },
-    {
-      id: 2,
-      title: "Website Layout of LaslesVPN",
-      img: layouts,
-      skills: "React JS / Tailwind",
-      duration: "9 hours",
-      category: "Layouts",
-      link: "https://laselvpnn.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/thirdproject",
-      demo: "Has",
-    },
-    {
-      id: 3,
-      title: "Simple ToDo Planner",
-      img: todo,
-      skills: "React JS / Tailwind",
-      duration: "2 hours",
-      category: "Others",
-      link: "https://todo-tailwind-livid.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/todoTailwind",
-      demo: "Has",
-    },
-    {
-      id: 4,
-      title: "Agar.Io Clone ( not finished )",
-      img: games,
-      skills: "Node JS / Socket.io",
-      duration: "5 hours",
-      category: "Games",
-      link: "/",
-      githubLink: "https://github.com/tedbundy12/agar.io",
-      demo: "None",
-    },
-    {
-      id: 5,
-      title: "Simple Drone Game",
-      img: games,
-      skills: "HTML / CSS / JavaScript",
-      duration: "1 hours",
-      category: "Games",
-      link: "https://drone-game-nine.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/drone-game",
-      demo: "Has",
-    },
-    {
-      id: 6,
-      title: "Simple Drone Game",
-      img: games,
-      skills: "HTML / CSS / JavaScript",
-      duration: "1 hours",
-      category: "Games",
-      link: "https://drone-game-nine.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/drone-game",
-      demo: "Has",
-    },
-  ],
-  ru: [
-    {
-      id: 1,
-      title: "Вёрстка сайта Supabase",
-      img: layouts,
-      skills: "React JS / Tailwind",
-      duration: "12 часов",
-      category: "Вёрстка",
-      link: "https://tailwind-1-j7qg.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/tailwind-1",
-      demo: "Есть",
-    },
-    {
-      id: 2,
-      title: "Вёрстка сайта LaslesVPN",
-      img: layouts,
-      skills: "React JS / Tailwind",
-      duration: "9 часов",
-      category: "Вёрстка",
-      link: "https://laselvpnn.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/thirdproject",
-      demo: "Есть",
-    },
-    {
-      id: 3,
-      title: "Простой планировщик задач",
-      img: todo,
-      skills: "React JS / Tailwind",
-      duration: "2 часа",
-      category: "Другое",
-      link: "/",
-      githubLink: "https://github.com/tedbundy12/todoTailwind",
-      demo: "Есть",
-    },
-    {
-      id: 4,
-      title: "Клон игры Агарио ( не закончен )",
-      img: games,
-      skills: "Node JS / Socket.io",
-      duration: "5 часов",
-      category: "Игры",
-      link: "https://todo-tailwind-livid.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/agar.io",
-      demo: "Нет",
-    },
-    {
-      id: 5,
-      title: "Простая игра с дроном",
-      img: games,
-      skills: "HTML / CSS / JavaScript",
-      duration: "1 Часов",
-      category: "Игры",
-      link: "https://drone-game-nine.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/drone-game",
-      demo: "Есть",
-    },
-    {
-      id: 6,
-      title: "Простая игра с дроном",
-      img: games,
-      skills: "HTML / CSS / JavaScript",
-      duration: "1 Часов",
-      category: "Игры",
-      link: "https://drone-game-nine.vercel.app/",
-      githubLink: "https://github.com/tedbundy12/drone-game",
-      demo: "Есть",
-    },
-  ],
-};
-
-const categories = {
-  en: ["All", "Layouts", "Games", "Mobile", "Others", "Top"],
-  ru: ["Все", "Макеты", "Игры", "Мобильные", "Другие", "Топ"],
-};
-
-const authLang = {
-  en: ["Sign In", "Sign Up"],
-  ru: ["Войти", "Зарегистрироваться"],
-};
-
-const openInNewTabText = {
-  en: "Open in a new page",
-  ru: "Открыть на новой странице",
-};
+import { projects } from "./data.js";
+import { categories, openInNewTabText } from "../cash.jsx";
+import { Upper } from "../cash.jsx";
 
 function HeaderInfo() {
   const { language = "en", toggleLanguage } = useContext(LanguageContext);
@@ -196,14 +39,6 @@ function HeaderInfo() {
   const toggleVisibility = () => {
     setIsVisible(!isVisible); // Переключаем состояние между true и false
   };
-
-  const filteredProjectsInp = projects[language].filter(
-    (project) =>
-      (selectedCategory === "All" ||
-        selectedCategory === "Все" ||
-        project.category === selectedCategory) &&
-      project.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -246,17 +81,8 @@ function HeaderInfo() {
       <div className={styles.particles}>
         <ParticlesComponent />
       </div>
-      <button
-        className="text-white text-[20px] fixed bottom-0 py-2 px-2"
-        onClick={() =>
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth", // для плавной прокрутки
-          })
-        }
-      >
-        {language === "en" ? "Up" : "Вверх"}
-      </button>
+
+      <Upper></Upper>
 
       {/* Смена языка */}
       <div className="flex justify-end w-full pr-10 mb-4 pt-4 items-center ssm:justify-between ssm:px-4">
@@ -507,7 +333,7 @@ function HeaderInfo() {
         ))}
       </div>
       {visibleProjects < projects[language].length && (
-        <div className="m-0 m-auto flex justify-center">
+        <div className="flex justify-center">
           <button
             onClick={handleLoadMore}
             className="text-white bg-blue-500 px-16 py-2 mt-12 rounded font-def font-semibold"
