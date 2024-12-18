@@ -90,7 +90,7 @@ const SignUp = () => {
         <button
           onClick={() => toggleLanguage("en")}
           className={`px-4 py-2 mx-2 ${
-            language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
+            language === "en" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
           } rounded-md`}
         >
           English
@@ -98,7 +98,7 @@ const SignUp = () => {
         <button
           onClick={() => toggleLanguage("ru")}
           className={`px-4 py-2 mx-2 ${
-            language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
+            language === "ru" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
           } rounded-md`}
         >
           Русский
@@ -108,7 +108,7 @@ const SignUp = () => {
         onSubmit={register}
         className="flex justify-center flex-col text-center items-center gap-[15px] pt-[200px]"
       >
-        <h2 className="text-white font-def text-[32px] font-semibold">
+        <h2 className="text-[#fff] font-def text-[32px] font-semibold">
           {language === "en" ? "Create an account" : "Создать Аккаунт"}
         </h2>
         <input
@@ -132,18 +132,18 @@ const SignUp = () => {
           type="password"
           className="w-[280px] h-[40px] border-none rounded-md font-def text-sm pl-2 outline-none"
         />
-        <button className="bg-blue-600 text-white w-[120px] h-[35px] rounded">
+        <button className="bg-blue-600 text-[#fff] w-[120px] h-[35px] rounded">
           {language === "en" ? "Create" : "Создать"}
         </button>
         <Link to={{ pathname: "/signin" }} className="text-blue-500 font-def">
           {language === "en" ? "Already have an account?" : "Уже есть аккаунт?"}
         </Link>
-        <Link to={{ pathname: "/" }} className="text-white font-def">
+        <Link to={{ pathname: "/" }} className="text-[#fff] font-def">
           {language === "en" ? "Back" : "Назад"}
         </Link>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
-      <div className="text-white mt-12 text-center">
+      <div className="text-[#fff] mt-12 text-center">
         <h3 className="font-def text-[24px] font-semibold text-center mb-2">
           {language === "en" ? "Recent Registered Users" : "Недавние зарегистрированные Пользователи"}
         </h3>

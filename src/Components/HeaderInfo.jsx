@@ -91,7 +91,7 @@ function HeaderInfo() {
         {user ? (
           <AuthDetails />
         ) : (
-          <div className="text-white font-def flex gap-[30px] mr-5 fm:mr-16">
+          <div className="text-[#fff] font-def flex gap-[30px] mr-5 fm:mr-16">
             <Link to={{ pathname: "/signin" }}>
               {language === "en" ? "Sign In" : "Войти"}
             </Link>
@@ -104,7 +104,7 @@ function HeaderInfo() {
         <button
           onClick={() => toggleLanguage("en")}
           className={`px-4 py-2 mx-2 ${
-            language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
+            language === "en" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
           } rounded-md fm:hidden`}
         >
           English
@@ -112,7 +112,7 @@ function HeaderInfo() {
         <button
           onClick={() => toggleLanguage("ru")}
           className={`px-4 py-2 mx-2 ${
-            language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
+            language === "ru" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
           } rounded-md fm:hidden`}
         >
           Русский
@@ -129,7 +129,7 @@ function HeaderInfo() {
           <p
             onClick={() => toggleLanguage("en")}
             className={`text-center h-[30px] justify-center items-center flex w-full ${
-              language === "en" ? "bg-blue-500 text-white" : "bg-gray-200"
+              language === "en" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
             } rounded-md`}
           >
             English
@@ -137,7 +137,7 @@ function HeaderInfo() {
           <p
             onClick={() => toggleLanguage("ru")}
             className={`text-center mt-2 w-full h-[30px] justify-center items-center flex ${
-              language === "ru" ? "bg-blue-500 text-white" : "bg-gray-200"
+              language === "ru" ? "bg-blue-500 text-[#fff]" : "bg-gray-200"
             } rounded-md`}
           >
             Русский
@@ -145,13 +145,13 @@ function HeaderInfo() {
         </div>
       </div>
 
-      <p className="text-white text-[50px] text-center pt-20 font-def font-bold tracking-[4px]">
+      <p className="text-[#fff] text-[50px] text-center pt-20 font-def font-bold tracking-[4px]">
         {language === "en"
           ? "Vanik Sedrakyan's Portfolio"
           : "Портфолио Ваника Седракяна"}
       </p>
 
-      <div className="text-white font-def font-semibold leading-[5px] pt-4 text-[18px] justify-center flex-col flex text-center items-center">
+      <div className="text-[#fff] font-def font-semibold leading-[5px] pt-4 text-[18px] justify-center flex-col flex text-center items-center">
         <ul class={styles.example_2}>
           <li class={styles.icon_content}>
             <a
@@ -238,8 +238,8 @@ function HeaderInfo() {
             key={category}
             className={`px-4 py-2 rounded-lg border-2 border-black ${
               selectedCategory === category
-                ? "bg-blue-600 text-white"
-                : "bg-white text-black"
+                ? "bg-blue-600 text-[#fff]"
+                : "bg-[#fff] text-black"
             }`}
             onClick={() => setSelectedCategory(category)}
           >
@@ -274,11 +274,11 @@ function HeaderInfo() {
             viewport={{ once: false }} // Анимация при повторном появлении
           >
             <div className="w-[380px] h-[220px] absolute flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300 twm:w-full">
-              <span className="text-white text-[20px] text-center font-bold">
+              <span className="text-[#fff] text-[20px] text-center font-bold">
                 {openInNewTabText[language]}
               </span>
             </div>
-            <div className="font-def text-white text-center text-[18px]">
+            <div className="font-def text-[#fff] text-center text-[18px]">
               <img
                 src={project.img}
                 alt={project.title}
@@ -329,7 +329,7 @@ function HeaderInfo() {
         <div className="flex justify-center">
           <button
             onClick={handleLoadMore}
-            className="text-white bg-blue-500 px-16 py-2 mt-12 rounded font-def font-semibold"
+            className="text-[#fff] bg-blue-500 px-16 py-2 mt-12 rounded font-def font-semibold"
           >
             {language === "en" ? "Load More" : "Загрузить больше"}
           </button>

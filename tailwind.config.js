@@ -2,13 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
-    colors: {
-      "custom-dark": "#181818",
-      "button-green": "#24B47E",
-      "nav-color": "#EEEEEE",
-      desc: "#E0E0E0",
-      dark: "#1F1F1F",
+    extend: {
+      colors: {
+        "custom-dark": "#181818",
+        "button-green": "#24B47E",
+        "nav-color": "#EEEEEE",
+        "desc": "#E0E0E0",
+        "dark": "#1F1F1F",
+      },
     },
     fontFamily: {
       def: "Roboto, sans-serif",

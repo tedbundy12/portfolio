@@ -15,8 +15,8 @@ const CategoryButtons = ({
           key={category}
           className={`px-4 py-2 rounded-lg border-2 border-black ${
             selectedCategory === category
-              ? "bg-blue-600 text-white"
-              : "bg-white text-black"
+              ? "bg-blue-600 text-[#fff]"
+              : "bg-[#fff] text-black"
           }`}
           onClick={() => onCategoryChange(category)}
         >

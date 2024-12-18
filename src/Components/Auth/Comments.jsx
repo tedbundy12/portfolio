@@ -33,8 +33,8 @@ const Tooltip = ({ children, content }) => {
       {children}
       {isVisible && content && (
         <div
-          className="absolute z-10 p-1 ml-0 bg-[#121212] text-white text-xs 
-          shadow-lg bottom-full transition-all whitespace-nowrap max-w-[200px] overflow-hidden text-ellipsis"
+          className="absolute z-10 p-1 ml-0 bg-[#121212] text-[#fff] text-xs 
+          shadow-lg bottom-full transition-all [#fff]space-nowrap max-w-[200px] overflow-hidden text-ellipsis"
         >
           {content}
         </div>
@@ -261,7 +261,7 @@ const CommentsSection = () => {
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 mt-2 rounded font-def"
+              className="bg-blue-600 text-[#fff] px-6 py-2 mt-2 rounded font-def"
             >
               {language === "en"
                 ? editingCommentId
@@ -280,7 +280,7 @@ const CommentsSection = () => {
           </p>
         )
       ) : (
-        <p className="text-white font-def text-[20px] text-center">
+        <p className="text-[#fff] font-def text-[20px] text-center">
           {language === "en"
             ? "You need to sign in to leave a comment."
             : "Вам нужно авторизоваться чтобы отправить комментарий"}
@@ -297,7 +297,7 @@ const CommentsSection = () => {
               className="comment bg-[#181818] p-4 rounded-lg mb-4 overflow-hidden text-ellipsis break-words"
             >
               <p className="text-gray-400 text-sm mb-2">{comment.user}</p>
-              <p className="text-white">{comment.text}</p>
+              <p className="text-[#fff]">{comment.text}</p>
 
               <Tooltip content={formatLikedByList(comment.likedBy)}>
                 <button
@@ -312,7 +312,7 @@ const CommentsSection = () => {
             </motion.div>
           ))
         ) : (
-          <p className="text-white text-[20px]">
+          <p className="text-[#fff] text-[20px]">
             {language === "en"
               ? "No comments yet."
               : "Комментарии отсутствуют."}
