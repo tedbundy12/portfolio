@@ -76,6 +76,7 @@ function HeaderInfo() {
 
       return isCategoryMatch && isSearchMatch;
     });
+
   return (
     <div className={styles.container}>
       <div className={styles.particles}>

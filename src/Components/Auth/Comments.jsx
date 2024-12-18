@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { auth } from "../Firebase"; // Импортируем аутентификацию Firebase
+import { auth } from "../Firebase";
 import { signOut } from "firebase/auth";
 import {
   getFirestore,
@@ -7,16 +7,17 @@ import {
   addDoc,
   getDocs,
   updateDoc,
-  deleteDoc, // Для удаления
+  deleteDoc,
   doc,
   query,
   orderBy,
   where,
+  getDoc,
 } from "firebase/firestore";
 import { LanguageContext } from "../LanguageContext";
-import { formatDistanceToNow } from "date-fns"; // Импортируем функцию
-import { ru, enUS } from "date-fns/locale"; // Импорт локалей
-import { serverTimestamp } from "firebase/firestore"; // Импортируем serverTimestamp
+import { formatDistanceToNow } from "date-fns";
+import { ru, enUS } from "date-fns/locale";
+import { serverTimestamp } from "firebase/firestore";
 import { motion } from "framer-motion";
 
 const CommentsSection = () => {
@@ -24,11 +25,11 @@ const CommentsSection = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
-  const [hasCommented, setHasCommented] = useState(false); // Флаг для проверки, оставил ли пользователь комментарий
-  const [editingCommentId, setEditingCommentId] = useState(null); // Для редактирования
+  const [hasCommented, setHasCommented] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { language } = useContext(LanguageContext); // Получаем текущий язык
+  const { language } = useContext(LanguageContext);
 
   const db = getFirestore();
 
@@ -36,11 +37,10 @@ const CommentsSection = () => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
       if (authUser) {
         setUser(authUser);
-        // Проверяем, оставил ли пользователь уже комментарий
         const commentsRef = collection(db, "comments");
-        const q = query(commentsRef, where("user", "==", authUser.email)); // Проверка по email
+        const q = query(commentsRef, where("user", "==", authUser.email));
         const querySnapshot = await getDocs(q);
-        setHasCommented(!querySnapshot.empty); // Если запрос не пустой, значит комментарий уже существует
+        setHasCommented(!querySnapshot.empty);
       } else {
         setUser(null);
       }
@@ -48,14 +48,16 @@ const CommentsSection = () => {
 
     const fetchComments = async () => {
       const commentsRef = collection(db, "comments");
-      const q = query(commentsRef, orderBy("timestamp", "asc"));
+      const q = query(commentsRef, orderBy("timestamp", "desc"));
       const querySnapshot = await getDocs(q);
       const commentsData = querySnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
           ...data,
-          timestamp: data.timestamp || null, // Убедимся, что timestamp существует
+          timestamp: data.timestamp || null,
+          likes: Number(data.likes) || 0,
+          likedBy: data.likedBy || [],
         };
       });
       setComments(commentsData);
@@ -108,34 +110,36 @@ const CommentsSection = () => {
       return;
     }
 
-    if (isSubmitting) return; // Предотвращаем повторное создание комментария
+    if (isSubmitting) return;
 
-    setIsSubmitting(true); // Блокируем отправку
+    setIsSubmitting(true);
 
     try {
       const docRef = await addDoc(collection(db, "comments"), {
         text: comment,
         user: user.email,
-        timestamp: serverTimestamp(), // используем serverTimestamp
+        timestamp: serverTimestamp(),
         edited: false,
+        likes: 0,
+        likedBy: [],
       });
 
       setComment("");
       setError(null);
       setHasCommented(true);
 
-      window.location.reload();
-
-      // Добавляем новый комментарий в состояние
+      // Update local state without reload
       setComments((prevComments) => [
-        ...prevComments,
         {
           id: docRef.id,
           text: comment,
           user: user.email,
-          timestamp: new Date(), // локально отображаем текущую дату до получения обновленных данных
+          timestamp: new Date(),
           edited: false,
+          likes: 0,
+          likedBy: [],
         },
+        ...prevComments,
       ]);
     } catch (error) {
       setError("Error adding comment: " + error.message);
@@ -150,10 +154,64 @@ const CommentsSection = () => {
       setComments((prevComments) =>
         prevComments.filter((comment) => comment.id !== commentId)
       );
+      setHasCommented(false);
     } catch (error) {
       setError("Error deleting comment: " + error.message);
-    } finally {
-      window.location.reload();
+    }
+  };
+
+  const handleLikeComment = async (commentId) => {
+    if (!user) {
+      setError(
+        language === "en"
+          ? "You need to sign in to like a comment."
+          : "Вам нужно авторизоваться, чтобы поставить лайк."
+      );
+      return;
+    }
+
+    try {
+      const commentRef = doc(db, "comments", commentId);
+      const commentSnapshot = await getDoc(commentRef);
+
+      if (commentSnapshot.exists()) {
+        const commentData = commentSnapshot.data();
+        const likedBy = commentData.likedBy || [];
+        const currentLikes = Number(commentData.likes) || 0;
+
+        if (likedBy.includes(user.email)) {
+          // Remove like
+          await updateDoc(commentRef, {
+            likes: Math.max(currentLikes - 1, 0),
+            likedBy: likedBy.filter((email) => email !== user.email),
+          });
+        } else {
+          // Add like
+          await updateDoc(commentRef, {
+            likes: currentLikes + 1,
+            likedBy: [...likedBy, user.email],
+          });
+        }
+
+        // Update local state
+        setComments((prevComments) =>
+          prevComments.map((com) =>
+            com.id === commentId
+              ? {
+                  ...com,
+                  likes: likedBy.includes(user.email)
+                    ? Math.max(Number(com.likes) - 1, 0)
+                    : Number(com.likes) + 1,
+                  likedBy: likedBy.includes(user.email)
+                    ? com.likedBy.filter((email) => email !== user.email)
+                    : [...com.likedBy, user.email],
+                }
+              : com
+          )
+        );
+      }
+    } catch (error) {
+      setError("Error updating like: " + error.message);
     }
   };
 
@@ -177,14 +235,14 @@ const CommentsSection = () => {
       return;
     }
 
-    if (isSubmitting) return; // Предотвращаем повторное редактирование
+    if (isSubmitting) return;
 
-    setIsSubmitting(true); // Блокируем отправку
+    setIsSubmitting(true);
 
     try {
       await updateDoc(doc(db, "comments", editingCommentId), {
         text: comment,
-        edited: true, // comment edited ? true
+        edited: true,
       });
       setComments((prevComments) =>
         prevComments.map((com) =>
@@ -203,15 +261,15 @@ const CommentsSection = () => {
   };
 
   const getTimeAgo = (timestamp) => {
-    if (!timestamp || !timestamp.seconds) return ""; // Проверяем, что timestamp существует и содержит seconds
+    if (!timestamp || !timestamp.seconds) return "";
     try {
       return formatDistanceToNow(new Date(timestamp.seconds * 1000), {
         addSuffix: true,
-        locale: language === "en" ? enUS : ru, // Устанавливаем локаль на основе выбранного языка
+        locale: language === "en" ? enUS : ru,
       });
     } catch (error) {
       console.error("Invalid timestamp format", error);
-      return ""; // Возвращаем пустую строку, если произошла ошибка
+      return "";
     }
   };
 
@@ -274,12 +332,17 @@ const CommentsSection = () => {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <motion.div
-              key={comment.id} // Изменил key с index на comment.id
+              key={comment.id}
               className="comment bg-[#181818] p-4 rounded-lg mb-4 overflow-hidden text-ellipsis break-words]"
-              
             >
               <p className="text-gray-400 text-sm mb-2">{comment.user}</p>
               <p className="text-white">{comment.text}</p>
+              <button
+                onClick={() => handleLikeComment(comment.id)}
+                className="text-white font-def text-sm pt-2"
+              >
+                {language === "en" ? "👍" : "👍"} {comment.likes || 0}
+              </button>
               <p className="text-gray-500 text-sm mt-2">
                 {getTimeAgo(comment.timestamp)}
               </p>

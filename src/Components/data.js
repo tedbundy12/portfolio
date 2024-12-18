@@ -15,6 +15,7 @@ export const projects = {
       link: "https://tailwind-1-j7qg.vercel.app/",
       githubLink: "https://github.com/tedbundy12/tailwind-1",
       demo: "Has",
+      likes: 0,
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ export const projects = {
       link: "https://laselvpnn.vercel.app/",
       githubLink: "https://github.com/tedbundy12/thirdproject",
       demo: "Has",
+      likes: 0,
     },
     {
       id: 3,
@@ -37,6 +39,7 @@ export const projects = {
       link: "https://todoo-git-main-tedbundy12s-projects.vercel.app/",
       githubLink: "https://github.com/tedbundy12/todoo",
       demo: "Has",
+      likes: 0,
     },
     {
       id: 4,
@@ -48,6 +51,7 @@ export const projects = {
       link: "/",
       githubLink: "https://github.com/tedbundy12/agar.io",
       demo: "None",
+      likes: 0,
     },
     {
       id: 5,
@@ -59,6 +63,7 @@ export const projects = {
       link: "https://drone-game-nine.vercel.app/",
       githubLink: "https://github.com/tedbundy12/drone-game",
       demo: "Has",
+      likes: 0,
     },
   ],
   ru: [
@@ -72,6 +77,7 @@ export const projects = {
       link: "https://tailwind-1-j7qg.vercel.app/",
       githubLink: "https://github.com/tedbundy12/tailwind-1",
       demo: "Есть",
+      likes: 0,
     },
     {
       id: 2,
@@ -83,6 +89,7 @@ export const projects = {
       link: "https://laselvpnn.vercel.app/",
       githubLink: "https://github.com/tedbundy12/thirdproject",
       demo: "Есть",
+      likes: 0,
     },
     {
       id: 3,
@@ -94,6 +101,7 @@ export const projects = {
       link: "https://todoo-git-main-tedbundy12s-projects.vercel.app/",
       githubLink: "https://github.com/tedbundy12/todoo",
       demo: "Есть",
+      likes: 0,
     },
     {
       id: 4,
@@ -105,6 +113,7 @@ export const projects = {
       link: "https://todo-tailwind-livid.vercel.app/",
       githubLink: "https://github.com/tedbundy12/agar.io",
       demo: "Нет",
+      likes: 0,
     },
     {
       id: 5,
@@ -116,6 +125,7 @@ export const projects = {
       link: "https://drone-game-nine.vercel.app/",
       githubLink: "https://github.com/tedbundy12/drone-game",
       demo: "Есть",
+      likes: 0,
     },
   ],
 };
