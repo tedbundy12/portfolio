@@ -3,6 +3,9 @@ import HeaderInfo from "./Components/HeaderInfo";
 import { LanguageProvider } from "./Components/LanguageContext";
 import SignIn from "./Components/Auth/SignIn";
 import SignUp from "./Components/Auth/SignUp";
+
+import Supabase from './Supabase/components/App'
+
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
@@ -13,6 +16,8 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<HeaderInfo />} />
+          <Route path="/projects/1" element={<Supabase />} />
+          {/* Страница для проекта 1 */}
         </Routes>
       </Router>
     </LanguageProvider>

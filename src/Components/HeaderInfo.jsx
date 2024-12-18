@@ -265,9 +265,7 @@ function HeaderInfo() {
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
-            onClick={() =>
-              window.open(project.link, "_blank", "noopener,noreferrer")
-            }
+            onClick={() => navigate(`/projects/${project.id}`)}
             className={`group border-2 rounded-lg bg-[#202020] border-[#00000073] cursor-pointer bg-opacity-80`} // Добавляем cursor-pointer для индикации кликабельности
             initial={{ opacity: 0, y: 20 }} // Начальное состояние
             whileInView={{ opacity: 1, y: 0 }} // Конечное состояние
@@ -288,15 +286,9 @@ function HeaderInfo() {
               />
               <p className="mb-2">{project.title}</p>
               <p className="mb-2">
-                {language === "en" ? "Skills" : "Навыки"} | {project.skills}
+                {language === "en" ? "Stack" : "Навыки"} | {project.skills}
               </p>
-              <p className="mb-2">
-                {language === "en" ? "Duration" : "Длительность"} |{" "}
-                {project.duration}
-              </p>
-              <p className="mb-2">
-                {language === "en" ? "Demo" : "Демо"} - {project.demo}
-              </p>
+
               <p
                 className="mb-2"
                 onClick={() =>

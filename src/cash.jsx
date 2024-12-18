@@ -7,8 +7,8 @@ export const categories = {
 };
 
 export const openInNewTabText = {
-  en: "Open in a new page",
-  ru: "Открыть на новой странице",
+  en: "Watch demo",
+  ru: "Посмотреть демонстранцию",
 };
 
 export const Upper = () => {

@@ -10,12 +10,8 @@ export const projects = {
       title: "Website Layout of Supabase",
       img: layouts,
       skills: "React JS / Tailwind",
-      duration: "12 hours",
       category: "Layouts",
-      link: "https://tailwind-1-j7qg.vercel.app/",
       githubLink: "https://github.com/tedbundy12/tailwind-1",
-      demo: "Has",
-      likes: 0,
     },
     {
       id: 2,
