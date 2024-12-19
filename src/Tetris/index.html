@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тетрис</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #121212;
+        color: white;
+        font-family: "Roboto", serif;
+      }
+
+      .game-container {
+        display: flex;
+        gap: 50px;
+        margin-top: 20px;
+      }
+
+      .grid {
+        width: 200px;
+        height: 400px;
+        display: flex;
+        flex-wrap: wrap;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .grid div {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+      }
+
+      .mini-grid {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        flex-wrap: wrap;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .mini-grid div {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+      }
+
+      .tetromino {
+        background-color: #00a8ff;
+      }
+
+      .taken {
+        background-color: #2f3640;
+      }
+
+      .controls {
+        margin-top: 50px;
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        font-weight: 600;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #00a8ff;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0097e6;
+      }
+
+      .game-info {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .best-score {
+        color: #e84118;
+      }
+
+      @media screen and (max-width: 458px) {
+        .game-container {
+          display: grid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-info">
+      <h2>Счёт: <span id="score">0</span></h2>
+      <h3>Рекорд: <span id="best-score" class="best-score">0</span></h3>
+      <h3>Уровень: <span id="level">1</span></h3>
+    </div>
+    <div class="game-container">
+      <div class="next-container">
+        <h2>Next Figure</h2>
+        <div class="mini-grid"></div>
+      </div>
+      <div class="grid"></div>
+    </div>
+    <div class="controls">
+      <button id="start-button">Старт</button>
+      <button id="reset-button">Новая игра</button>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.querySelector(".grid");
+        const miniGrid = document.querySelector(".mini-grid");
+        const scoreDisplay = document.getElementById("score");
+        const bestScoreDisplay = document.getElementById("best-score");
+        const levelDisplay = document.getElementById("level");
+        const startButton = document.getElementById("start-button");
+        const resetButton = document.getElementById("reset-button");
+        const width = 10;
+        let score = 0;
+        let bestScore = localStorage.getItem("tetrisBestScore") || 0;
+        let level = 1;
+        let speed = 1000;
+        let timerId = null;
+        let isGameOver = false;
+        let isPaused = true;
+
+        bestScoreDisplay.textContent = bestScore;
+
+        // Создание игрового поля
+        for (let i = 0; i < 200; i++) {
+          const cell = document.createElement("div");
+          grid.appendChild(cell);
+        }
+        // Добавление нижней границы
+        for (let i = 0; i < 10; i++) {
+          const cell = document.createElement("div");
+          cell.classList.add("taken");
+          grid.appendChild(cell);
+        }
+
+        const squares = Array.from(document.querySelectorAll(".grid div"));
+
+        // Создание мини-сетки для следующей фигуры
+        for (let i = 0; i < 16; i++) {
+          const cell = document.createElement("div");
+          miniGrid.appendChild(cell);
+        }
+        const miniGridSquares = Array.from(
+          document.querySelectorAll(".mini-grid div")
+        );
+
+        // Тетромино
+        const lTetromino = [
+          [1, width + 1, width * 2 + 1, 2],
+          [width, width + 1, width + 2, width * 2 + 2],
+          [1, width + 1, width * 2 + 1, width * 2],
+          [width, width * 2, width * 2 + 1, width * 2 + 2],
+        ];
+
+        const zTetromino = [
+          [0, 1, width + 1, width + 2],
+          [1, width, width + 1, width * 2],
+          [0, 1, width + 1, width + 2],
+          [1, width, width + 1, width * 2],
+        ];
+
+        const tTetromino = [
+          [1, width, width + 1, width + 2],
+          [1, width + 1, width + 2, width * 2 + 1],
+          [width, width + 1, width + 2, width * 2 + 1],
+          [1, width, width + 1, width * 2 + 1],
+        ];
+
+        const oTetromino = [
+          [0, 1, width, width + 1],
+          [0, 1, width, width + 1],
+          [0, 1, width, width + 1],
+          [0, 1, width, width + 1],
+        ];
+
+        const iTetromino = [
+          [1, width + 1, width * 2 + 1, width * 3 + 1],
+          [width, width + 1, width + 2, width + 3],
+          [1, width + 1, width * 2 + 1, width * 3 + 1],
+          [width, width + 1, width + 2, width + 3],
+        ];
+
+        const tetrominoes = [
+          lTetromino,
+          zTetromino,
+          tTetromino,
+          oTetromino,
+          iTetromino,
+        ];
+        const nextTetrominoes = [
+          [1, 5, 9, 2], // L
+          [0, 1, 5, 6], // Z
+          [1, 4, 5, 6], // T
+          [0, 1, 4, 5], // O
+          [1, 5, 9, 13], // I
+        ];
+
+        let currentPosition = 4;
+        let currentRotation = 0;
+        let random = Math.floor(Math.random() * tetrominoes.length);
+        let nextRandom = Math.floor(Math.random() * tetrominoes.length);
+        let current = tetrominoes[random][currentRotation];
+
+        const colors = ["#FF5733", "#33FF57", "#5733FF", "#FFD700", "#00FFFF"];
+
+        function draw() {
+          current.forEach((index) => {
+            squares[currentPosition + index].classList.add("tetromino");
+            squares[currentPosition + index].style.backgroundColor =
+              colors[random];
+          });
+        }
+
+        function undraw() {
+          current.forEach((index) => {
+            squares[currentPosition + index].classList.remove("tetromino");
+            squares[currentPosition + index].style.backgroundColor = "";
+          });
+        }
+
+        function displayNextTetromino() {
+          miniGridSquares.forEach((square) => {
+            square.classList.remove("tetromino");
+            square.style.backgroundColor = "";
+          });
+
+          nextTetrominoes[nextRandom].forEach((index) => {
+            miniGridSquares[index].classList.add("tetromino");
+            miniGridSquares[index].style.backgroundColor = colors[nextRandom];
+          });
+        }
+
+        function control(e) {
+          if (isPaused || isGameOver) return;
+
+          if (e.keyCode === 37) {
+            moveLeft();
+          } else if (e.keyCode === 38) {
+            rotate();
+          } else if (e.keyCode === 39) {
+            moveRight();
+          } else if (e.keyCode === 40) {
+            moveDown();
+          }
+        }
+
+        function moveDown() {
+          if (isPaused || isGameOver) return;
+
+          undraw();
+          currentPosition += width;
+          if (
+            current.some((index) =>
+              squares[currentPosition + index].classList.contains("taken")
+            )
+          ) {
+            currentPosition -= width;
+            freeze();
+            return;
+          }
+          draw();
+        }
+
+        function moveLeft() {
+          undraw();
+          const isAtLeftEdge = current.some(
+            (index) => (currentPosition + index) % width === 0
+          );
+
+          if (!isAtLeftEdge) currentPosition -= 1;
+
+          if (
+            current.some((index) =>
+              squares[currentPosition + index].classList.contains("taken")
+            )
+          ) {
+            currentPosition += 1;
+          }
+
+          draw();
+        }
+
+        function moveRight() {
+          undraw();
+          const isAtRightEdge = current.some(
+            (index) => (currentPosition + index) % width === width - 1
+          );
+
+          if (!isAtRightEdge) currentPosition += 1;
+
+          if (
+            current.some((index) =>
+              squares[currentPosition + index].classList.contains("taken")
+            )
+          ) {
+            currentPosition -= 1;
+          }
+
+          draw();
+        }
+
+        function rotate() {
+          undraw();
+          const nextRotation = (currentRotation + 1) % current.length;
+          const nextPattern = tetrominoes[random][nextRotation];
+
+          // Проверка возможности поворота
+          const isAtRightEdge = nextPattern.some(
+            (index) => (currentPosition + index) % width === width - 1
+          );
+          const isAtLeftEdge = nextPattern.some(
+            (index) => (currentPosition + index) % width === 0
+          );
+          const isTaken = nextPattern.some((index) =>
+            squares[currentPosition + index].classList.contains("taken")
+          );
+
+          if (!isAtRightEdge && !isAtLeftEdge && !isTaken) {
+            currentRotation = nextRotation;
+            current = nextPattern;
+          }
+
+          draw();
+        }
+
+        function freeze() {
+          current.forEach((index) =>
+            squares[currentPosition + index].classList.add("taken")
+          );
+
+          // Проверка на заполненные линии
+          checkForCompleteLines();
+
+          // Новая фигура
+          random = nextRandom;
+          nextRandom = Math.floor(Math.random() * tetrominoes.length);
+          current = tetrominoes[random][currentRotation];
+          currentPosition = 4;
+          displayNextTetromino();
+
+          // Проверка на окончание игры
+          if (checkGameOver()) {
+            return;
+          }
+
+          draw();
+        }
+
+        function checkRows() {
+          for (let i = 0; i < 199; i += width) {
+            const row = Array.from({ length: width }, (_, idx) => i + idx);
+
+            // Проверяем, заполнена ли строка
+            if (
+              row.every((index) => squares[index].classList.contains("taken"))
+            ) {
+              // Запускаем анимацию перед удалением
+              animateLineClear(row);
+
+              setTimeout(() => {
+                // Убираем заполненные ячейки
+                row.forEach((index) => {
+                  squares[index].classList.remove("taken", "tetromino");
+                  squares[index].style.backgroundColor = "";
+                });
+
+                // Добавляем пустую строку сверху
+                const removedSquares = squares.splice(i, width);
+                squares.unshift(
+                  ...Array.from({ length: width }, () => createEmptySquare())
+                );
+
+                // Вставляем обратно обновленные элементы
+                squares.forEach((cell) => grid.appendChild(cell));
+
+                // Обновляем счет
+                score += 10;
+                updateScore();
+              }, 500); // Ждем завершения анимации
+            }
+          }
+        }
+
+        function animateLineClear(row) {
+          row.forEach((index) => {
+            squares[index].style.backgroundColor = "white";
+            squares[index].style.transition = "background-color 0.5s ease";
+          });
+
+          setTimeout(() => {
+            row.forEach((index) => {
+              squares[index].style.backgroundColor = "";
+            });
+          }, 500); // Длительность эффекта
+        }
+
+        function createEmptySquare() {
+          const square = document.createElement("div");
+          square.classList.add("square");
+          return square;
+        }
+
+        function updateScore() {
+          document.querySelector("#score").innerText = score;
+        }
+
+        function checkForCompleteLines() {
+          let linesCleared = 0;
+
+          for (let i = 0; i < 200; i += width) {
+            const row = Array.from({ length: width }, (_, j) => i + j);
+
+            if (
+              row.every((index) => squares[index].classList.contains("taken"))
+            ) {
+              linesCleared++;
+              row.forEach((index) => {
+                squares[index].classList.remove("taken", "tetromino");
+                squares[index].style.backgroundColor = "";
+              });
+
+              const removedSquares = squares.splice(i, width);
+              squares.unshift(...removedSquares);
+              squares.forEach((cell) => grid.appendChild(cell));
+            }
+          }
+
+          if (linesCleared > 0) {
+            score += linesCleared * 10;
+            scoreDisplay.textContent = score;
+
+            if (score > bestScore) {
+              bestScore = score;
+              bestScoreDisplay.textContent = bestScore;
+              localStorage.setItem("tetrisBestScore", bestScore);
+            }
+
+            // Увеличение уровня и скорости
+            if (score >= level * 50) {
+              level++;
+              levelDisplay.textContent = level;
+              speed = Math.max(100, 1000 - (level - 1) * 100);
+              if (timerId) {
+                clearInterval(timerId);
+                timerId = setInterval(moveDown, speed);
+              }
+            }
+          }
+        }
+
+        function checkGameOver() {
+          if (
+            current.some((index) =>
+              squares[currentPosition + index].classList.contains("taken")
+            )
+          ) {
+            isGameOver = true;
+            clearInterval(timerId);
+            alert("Игра окончена! Ваш счёт: " + score);
+            return true;
+          }
+          return false;
+        }
+
+        function resetGame() {
+          // Очистка поля
+          squares.forEach((square) => {
+            square.classList.remove("tetromino", "taken");
+          });
+          // Добавление нижней границы
+          for (let i = 200; i < 210; i++) {
+            squares[i].classList.add("taken");
+          }
+
+          // Сброс переменных
+          score = 0;
+          level = 1;
+          speed = 1000;
+          isGameOver = false;
+          scoreDisplay.textContent = "0";
+          levelDisplay.textContent = "1";
+
+          // Сброс текущей фигуры
+          currentPosition = 4;
+          currentRotation = 0;
+          random = Math.floor(Math.random() * tetrominoes.length);
+          nextRandom = Math.floor(Math.random() * tetrominoes.length);
+          current = tetrominoes[random][currentRotation];
+
+          // Обновление отображения
+          displayNextTetromino();
+          draw();
+
+          // Перезапуск таймера
+          if (!isPaused) {
+            if (timerId) clearInterval(timerId);
+            timerId = setInterval(moveDown, speed);
+          }
+        }
+
+        startButton.addEventListener("click", () => {
+          if (isGameOver) {
+            resetGame();
+            return;
+          }
+
+          if (isPaused) {
+            isPaused = false;
+            timerId = setInterval(moveDown, speed);
+            startButton.textContent = "Пауза";
+          } else {
+            isPaused = true;
+            clearInterval(timerId);
+            timerId = null;
+            startButton.textContent = "Продолжить";
+          }
+        });
+
+        resetButton.addEventListener("click", resetGame);
+        document.addEventListener("keydown", control);
+        displayNextTetromino();
+      });
+    </script>
+  </body>
+</html>
