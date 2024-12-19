@@ -5,7 +5,7 @@ function Tetris() {
     <div>
       <iframe
         src="../src/Tetris/index.html"
-        title="Todo"
+        title="Tetris"
         style={{ width: "100%", height: "100vh", border: "none" }}
       ></iframe>
     </div>
