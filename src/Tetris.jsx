@@ -1,15 +1,16 @@
 import React from "react";
+import AuthDetails from "./Components/Auth/AuthDetails";
 
-function Drone() {
+function Tetris() {
   return (
     <div>
       <iframe
-        src="../src/Drone/index.html"
-        title="Drone"
+        src="/projects/Tetris.html"
+        title="Tetris"
         style={{ width: "100%", height: "100vh", border: "none" }}
       ></iframe>
     </div>
   );
 }
 
-export default Drone;
+export default Tetris;

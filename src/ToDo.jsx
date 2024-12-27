@@ -4,7 +4,7 @@ function ToDo() {
   return (
     <div>
       <iframe
-        src="../src/ToDo/index.html"
+        src="/projects/ToDo.html"
         title="Todo"
         style={{ width: "100%", height: "100vh", border: "none" }}
       ></iframe>
