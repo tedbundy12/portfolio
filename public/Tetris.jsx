@@ -1,4 +1,6 @@
 import React from "react";
+import AuthDetails from "../src/Components/Auth/AuthDetails";
+
 
 function Tetris() {
   return (

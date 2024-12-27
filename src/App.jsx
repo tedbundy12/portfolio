@@ -20,7 +20,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<HeaderInfo />} />
           <Route path="/projects/1" element={<Supabase />} />
-          <Route path="/projects/3" element={<ToDo />} />
+          <Route path="/projects/2" element={<ToDo />} />
           <Route path="/projects/4" element={<Drone />} />
           <Route path="/projects/5" element={<Tetris />} />
           {/* Страница для проекта 1 */}
