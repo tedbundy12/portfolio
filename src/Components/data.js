@@ -13,7 +13,7 @@ export const projects = {
       githubLink: "https://github.com/tedbundy12/tailwind-1",
     },
     {
-      id: 3,
+      id: 2,
       title: "Simple ToDo Planner",
       img: todo,
       skills: "JavaScript",
@@ -25,7 +25,7 @@ export const projects = {
       likes: 0,
     },
     {
-      id: 2,
+      id: 3,
       title: "Website Layout of LaslesVPN",
       img: layouts,
       skills: "React JS / Tailwind",
@@ -75,7 +75,7 @@ export const projects = {
       likes: 0,
     },
     {
-      id: 3,
+      id: 2,
       title: "Простой планировщик задач",
       img: todo,
       skills: "React JS / Tailwind",
@@ -87,7 +87,7 @@ export const projects = {
       likes: 0,
     },
     {
-      id: 2,
+      id: 3,
       title: "Вёрстка сайта LaslesVPN",
       img: layouts,
       skills: "React JS / Tailwind",
