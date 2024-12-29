@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { LanguageContext } from "./Components/LanguageContext";
 
 export const categories = {
-  en: ["All", "Layouts", "Games", "Others", "Top"],
-  ru: ["Все", "Макеты", "Игры", "Другие", "Топ"],
+  en: ["All", "Layouts", "Others"],
+  ru: ["Все", "Макеты", "Другие"],
 };
 
 export const openInNewTabText = {

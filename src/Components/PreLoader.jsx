@@ -4,8 +4,9 @@ import './PreLoader.css'
 
 const Preloader = () => {
   return (
-    <div style={styles.preloader}>
-      <div style={styles.spinner}></div>
+    <div style={styles.preloader} className="flex-col">
+      <div style={styles.spinner} className="mb-4"></div>
+      <p className="text-white font-def text-center text-xl">Loading..</p>
     </div>
   );
 };
